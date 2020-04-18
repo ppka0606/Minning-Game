@@ -10,6 +10,7 @@
 - 存储位置  
     - 源代码存储于/code/
         - 单元测试代码存储于/code/unittest/
-        - 实际项目代码存储与/code/game/
+        - 实际项目代码存储于/code/game/
+        - 学习pygame代码存储于/code/learn_pygame/
     - 游戏相关资源存储于/resource/
     - 其他内容存储于/others/
