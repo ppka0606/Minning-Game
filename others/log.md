@@ -6,3 +6,4 @@
     - pygame的使用快忘完了,所以重新见了一个文件夹/code/learn_pygame/来重新熟悉pygame;   
         相关资源放在/resource/learn_pygame中;   
         以<Python编程入门到实践>中的项目为实例;   
+    - 示例项目alien_invasion现在创建好了一个背景,并且用导入类的方式来实现"python中的全局变量"
