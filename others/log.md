@@ -3,4 +3,6 @@
 - 2020/4/17
     - 创建了项目,但是可能要等到后面才有时间来开发,暂时先这样
 - 2020/4/18
-    - pygame的使用快忘完了,所以重新见了一个文件夹/code/learn_pygame/来重新熟悉pygame
+    - pygame的使用快忘完了,所以重新见了一个文件夹/code/learn_pygame/来重新熟悉pygame;   
+        相关资源放在/resource/learn_pygame中;   
+        以<Python编程入门到实践>中的项目为实例;   
