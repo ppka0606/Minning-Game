@@ -1,9 +1,11 @@
-#### ���ǳ�����Ƶ�һ��С��¼��
+#### 算是程序设计的一个小记录吧
 ----
 - 2020/4/17
-    - ��������Ŀ,���ǿ���Ҫ�ȵ��������ʱ��������,��ʱ������
+    - 创建了项目,但是可能要等到后面才有时间来开发,暂时先这样
 - 2020/4/18
-    - pygame��ʹ�ÿ�������,�������¼���һ���ļ���/code/learn_pygame/��������Ϥpygame;   
-        �����Դ����/resource/learn_pygame��;   
-        ��<Python������ŵ�ʵ��>�е���ĿΪʵ��;   
-    - ʾ����Ŀalien_invasion���ڴ�������һ������,�����õ�����ķ�ʽ��ʵ��"python�е�ȫ�ֱ���"
+    - pygame的使用快忘完了,所以重新见了一个文件夹/code/learn_pygame/来重新熟悉pygame;   
+        相关资源放在/resource/learn_pygame中;   
+        以<Python编程入门到实践>中的项目为实例;   
+    - 示例项目alien_invasion现在创建好了一个背景,并且用导入类的方式来实现"python中的全局变量"  
+- 2020/4/19
+    - alienInvasion创建了玩家控制的Ship类.仍然存在的疑问在于如何将一个图片(.bmp)变形后的大小进行绘制,目前的解决方式是通过图像处理软件进行处理(如PS),**等待后续处理**
