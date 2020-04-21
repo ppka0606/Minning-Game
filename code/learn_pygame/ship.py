@@ -9,6 +9,10 @@ class Ship():
 
         self.screen = screen
         self.image = pygame.image.load(r"resource\alienInvasion\ship.bmp")
+
+        self.image.set_colorkey((255,255,255))
+        # 这个设置可以使图片的白色背景编程透明的
+        
         self.rect = self.image.get_rect()
         self.scree_rect = screen.get_rect()
 
