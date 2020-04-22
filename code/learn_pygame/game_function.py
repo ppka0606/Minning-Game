@@ -13,10 +13,13 @@ def check_events(ship):
         # 键盘事件
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_RIGHT:
+                ship.moving_right = True
                 # 向右
-                ship.rect.centerx += 10
+                # ship.rect.centerx += 10
                 # 仅做测试，所以移动距离设置的比较大
-
+        elif event.type == pygame.KEYUP:
+            if event.key == pygame.K_RIGHT:
+                ship.moving_right =False
 
 def update_screen(ai_settings,screen,ship):
 

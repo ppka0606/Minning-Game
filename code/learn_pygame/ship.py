@@ -20,9 +20,16 @@ class Ship():
         self.rect.centerx = self.scree_rect.centerx
         self.rect.bottom = self.scree_rect.bottom
 
+        # 设置初始的移动状态
+        self.moving_right = False
+
     def blitme(self):
         """
         图像绘制再指定位置
         """
         
         self.screen.blit(self.image,self.rect)
+
+    def update(self):
+        if self.moving_right == True:
+            self.rect.centerx += 1
