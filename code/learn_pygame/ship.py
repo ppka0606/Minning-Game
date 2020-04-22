@@ -22,7 +22,7 @@ class Ship():
 
         # 设置初始的移动状态
         self.moving_right = False
-
+        self.moving_left = False
     def blitme(self):
         """
         图像绘制再指定位置
@@ -33,3 +33,6 @@ class Ship():
     def update(self):
         if self.moving_right == True:
             self.rect.centerx += 1
+        
+        if self.moving_left == True:
+            self.rect.centerx -= 1
