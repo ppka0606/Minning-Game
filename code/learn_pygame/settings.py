@@ -17,3 +17,9 @@ class Settings():
         self.bullet_color = (60,60,60)
         self.bullets_allowed = 13
             # 允许同时存在于屏幕的子弹数量上限
+
+        # alien
+        self.alien_speed_factor = 0.5
+        self.fleet_drop_speed = 10
+        self.fleet_direction = 1
+            # 1:  --> ; -1:  <--
