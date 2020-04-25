@@ -43,7 +43,7 @@ def check_events(ai_settings, screen, ship, bullets):
         elif event.type == pygame.KEYUP:
             check_keyup_events(event,ship)
 
-def update_screen(ai_settings, screen, ship, alien, bullets):
+def update_screen(ai_settings, screen, stats, ship, alien, bullets, play_button):
 
     screen.fill(ai_settings.background_color)# 用指定的rgb元组来填充底色
 
@@ -52,6 +52,9 @@ def update_screen(ai_settings, screen, ship, alien, bullets):
 
     ship.blitme()
     alien.draw(screen)
+
+    if not stats.game_active:
+        play_button.draw_button()
 
     pygame.display.flip()
 
