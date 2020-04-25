@@ -51,3 +51,6 @@ class Ship():
             # 可以试想一下,每次center存储的是准确值,而赋给rect.centerx后只会保留整数部分
             # 相当于用"3像素/2帧"的效果实现了"1.5像素/帧"的预期速度
             # 由于1像素很小,每次移动距离很大,所以在移动时可能产生的0.5像素的偏差就无关紧要了
+
+    def center_ship(self):
+        self.center = self.screen_rect.centerx

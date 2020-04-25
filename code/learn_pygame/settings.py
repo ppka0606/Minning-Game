@@ -13,6 +13,7 @@ class Settings():
         # 设置子弹的属性
         self.bullet_speed_factor = 1
         self.bullet_width = 3
+            # 在测试的时候可以根据需要更改数据,以便于更快的达成目的
         self.bullet_height = 15
         self.bullet_color = (60,60,60)
         self.bullets_allowed = 13
@@ -20,6 +21,10 @@ class Settings():
 
         # alien
         self.alien_speed_factor = 0.5
-        self.fleet_drop_speed = 10
+        self.fleet_drop_speed = 50
         self.fleet_direction = 1
             # 1:  --> ; -1:  <--
+
+        # ship
+        self.ship_limit = 3
+            # 一共三条生命  
