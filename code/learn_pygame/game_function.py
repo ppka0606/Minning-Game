@@ -59,6 +59,7 @@ def check_play_button(ai_settings, screen, stats, play_button, ship, aliens, bul
 
         aliens.empty()
         bullets.empty()
+        ai_settings.increase_speed()
 
         create_fleet(ai_settings, screen, ship, aliens)
         ship.center_ship()
