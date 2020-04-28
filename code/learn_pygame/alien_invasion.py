@@ -6,7 +6,8 @@ from settings import Settings
 from ship import Ship
 from game_stats import GameStats
 from button import Button
-# from alien import Alien
+from scoreboard import ScoreBoard
+# from alien import Ali
     # 转移到特定的函数中去处理
 
 def run_game():
@@ -19,6 +20,7 @@ def run_game():
     
     play_button = Button(ai_settings, screen, "Play now!")
     stats = GameStats(ai_settings)
+    scoreboard = ScoreBoard(ai_settings, screen, stats)
     ship = Ship(ai_settings,screen)
     bullets = Group()
     aliens = Group() 
@@ -31,9 +33,9 @@ def run_game():
         
         if stats.game_active:
             ship.update()
-            gf.update_bullets(ai_settings, screen, ship, aliens, bullets)
+            gf.update_bullets(ai_settings, screen, stats, scoreboard, ship, aliens, bullets)
             gf.update_aliens(ai_settings, stats, screen, ship, aliens, bullets)
             
-        gf.update_screen(ai_settings, screen, stats, ship, aliens, bullets, play_button)
+        gf.update_screen(ai_settings, screen, stats, scoreboard, ship, aliens, bullets, play_button)
 
 run_game()

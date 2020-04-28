@@ -64,7 +64,7 @@ def check_play_button(ai_settings, screen, stats, play_button, ship, aliens, bul
         create_fleet(ai_settings, screen, ship, aliens)
         ship.center_ship()
 
-def update_screen(ai_settings, screen, stats, ship, alien, bullets, play_button):
+def update_screen(ai_settings, screen, stats, scoreborad, ship, alien, bullets, play_button):
 
     screen.fill(ai_settings.background_color)# 用指定的rgb元组来填充底色
 
@@ -74,15 +74,22 @@ def update_screen(ai_settings, screen, stats, ship, alien, bullets, play_button)
     ship.blitme()
     alien.draw(screen)
 
+    scoreborad.show_score()
+
     if not stats.game_active:
         play_button.draw_button()
 
     pygame.display.flip()
 
-def check_bullets_aliens_collisions(ai_settings, screen, ship, aliens, bullets):
+def check_bullets_aliens_collisions(ai_settings, screen, stats, scoreboard, ship, aliens, bullets):
     collisions = pygame.sprite.groupcollide(bullets, aliens, True, True)
         # groupcollide(groupa, groupb, dokilla, dokillb, collided=None)
         # 顾名思义,两个bool值分别代表碰撞的两方中需要消除的是哪一个/全部/没有
+    
+    if collisions:
+        for aliens in collisions.values():
+            stats.score += ai_settings.alien_points * len(aliens)
+            scoreboard.prep_score()
 
     # 打完了以后重新生成一排
     if len(aliens) == 0:
@@ -90,7 +97,7 @@ def check_bullets_aliens_collisions(ai_settings, screen, ship, aliens, bullets):
         ai_settings.increase_speed()
         create_fleet(ai_settings, screen, ship, aliens)
 
-def update_bullets(ai_settings, screen, ship, aliens, bullets):
+def update_bullets(ai_settings, screen, stats, scoreboard, ship, aliens, bullets):
     bullets.update()
 
     # 删除已经飞出屏幕的子弹,否则他们将持续消耗资源
@@ -100,7 +107,7 @@ def update_bullets(ai_settings, screen, ship, aliens, bullets):
             bullets.remove(bullet)
     # print(len(bullets))
         # 很好用的调试技巧,可以发现子弹的数量不会超过某个特定的值(手速固定的情况下),一段时间不操作后自动归零
-    check_bullets_aliens_collisions(ai_settings, screen, ship, aliens, bullets)
+    check_bullets_aliens_collisions(ai_settings, screen, stats, scoreboard, ship, aliens, bullets)
 
 
 # 绘制alien

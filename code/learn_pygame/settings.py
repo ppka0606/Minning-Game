@@ -16,7 +16,7 @@ class Settings():
             # 在测试的时候可以根据需要更改数据,以便于更快的达成目的
         self.bullet_height = 15
         self.bullet_color = (60,60,60)
-        self.bullets_allowed = 13
+        self.bullets_allowed = 3
             # 允许同时存在于屏幕的子弹数量上限
 
         # alien
@@ -27,6 +27,9 @@ class Settings():
         
         # 加速倍数
         self.speedup_scale = 1.1
+
+        # 分数倍数
+        self.score_scale = 1.5
 
         # ship
         self.ship_limit = 3
@@ -43,6 +46,8 @@ class Settings():
         self.alien_speed_factor = 0.5
 
         self.fleet_direction = 1
+
+        self.alien_points = 50
     
     def increase_speed(self):
         """
@@ -51,3 +56,5 @@ class Settings():
         self.ship_speed_factor *= self.speedup_scale
         self.bullet_speed_factor *= self.speedup_scale
         self.alien_speed_factor *= self.speedup_scale
+
+        self.alien_points = int(self.alien_points * self.score_scale)
