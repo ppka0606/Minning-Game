@@ -3,3 +3,5 @@
 
 *.pyc
 *.bmp
+
+/resource/mingingGame/User/MiningGame_user_list.json
