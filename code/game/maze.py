@@ -1,6 +1,8 @@
+import os
 from random import randint
 
 from const import Const
+
 
 class Maze():
     """
@@ -34,7 +36,7 @@ class Maze():
         for i in range(1, height, 2):
             for j in range(1, width, 2):
                 self.map[i][j] = 1
-        self.print_map()
+        # self.print_map()
 
         # 生成一条通路,全部是左下角开始到右上角(向下一格)结束
         self.map[height - 2][0] = 1
@@ -46,27 +48,33 @@ class Maze():
         stack = []
         stack.append((temp_x, temp_y))
             # 为防止挖到死角,需要一个栈来回退
-        # while self.map[1][width - 3] != 1 and self.map[2][width - 2] != 1:
-        while (1, width - 3) not in stack and (2, width - 2) not in stack:
+        while self.map[1][width - 3] != 1 and self.map[2][width - 2] != 1:
+        # while (1, width - 3) not in stack and (2, width - 2) not in stack:
             # 循环的结束条件是挖到出口的通路为止
             can_dig = [True] * 4
-            if temp_x - 2 <= 0 or self.map[temp_x - 1][temp_y] != 0:
+            if temp_x - 2 < 0 or self.map[temp_x - 1][temp_y] != 0:
                 can_dig[0] = False
-            if temp_x + 2 >= height - 2 or self.map[temp_x + 1][temp_y] != 0:
+            if temp_x + 2 > height - 2 or self.map[temp_x + 1][temp_y] != 0:
                 can_dig[1] = False
-            if temp_y - 2 <= 0 or self.map[temp_x][temp_y - 1] != 0:
+            if temp_y - 2 < 0 or self.map[temp_x][temp_y - 1] != 0:
                 can_dig[2] = False
-            if temp_y + 2 >= width - 2 or self.map[temp_x][temp_y + 1] != 0:
+            if temp_y + 2 > width - 2 or self.map[temp_x][temp_y + 1] != 0:
                 can_dig[3] = False
 
             if not (can_dig[0] or can_dig[1] or can_dig[2] or can_dig[3]):
                 # 如果上下左右都挖不了(出地图或者邻近一个已经挖过了)
+                # self.print_map()
                 stack.pop()
                 temp_x = stack[len(stack) - 1][0]
                 temp_y = stack[len(stack) - 1][1]
                 continue
             
-            direction = randint(1, 4)
+            direction = randint(1, 6)
+            # 为了尽量往出口接近,提高向上和向右的概率
+            if direction == 5:
+                direction = 1
+            elif direction == 6:
+                direction = 3
             if can_dig[direction - 1]:
                 if direction == 1:
                     self.map[temp_x - 1][temp_y] = 1
@@ -80,6 +88,9 @@ class Maze():
                 else:
                     self.map[temp_x][temp_y + 1] = 1
                     temp_y += 2
+
+            stack.append((temp_x, temp_y))
+
 
         # 制造空白
         counter = 0 
@@ -124,14 +135,16 @@ class Maze():
                 counter += 1
 
         # 调试中使用展示完成效果
-        print("完成")
-        self.print_map()
+        # self.print_map()
 
     def print_map(self):
+        os.system("cls")
+        print("开始画图")
         for i in range(len(self.map)):
             for j in range(len(self.map[0])):
                 print("O" if self.map[i][j] == 0 else " ",end = "")
             print()
+        print("完成")
 # test
 if __name__ == '__main__':
     maze = Maze(3)
