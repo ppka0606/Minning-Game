@@ -15,7 +15,7 @@ class Maze():
         """
         self.level = level
 
-        self.map = [[0] * Const.maze_width_square for _ in range(Const.maze_height_square)]
+        self._map = [[0] * Const.maze_width_square for _ in range(Const.maze_height_square)]
         self.create_map()
     
     def create_map(self):
@@ -35,12 +35,12 @@ class Maze():
         # 制造间隔
         for i in range(1, height, 2):
             for j in range(1, width, 2):
-                self.map[i][j] = 1
+                self._map[i][j] = 1
         # self.print_map()
 
         # 生成一条通路,全部是左下角开始到右上角(向下一格)结束
-        self.map[height - 2][0] = 1
-        self.map[1][width - 1] = 1
+        self._map[height - 2][0] = 1
+        self._map[1][width - 1] = 1
             # 挖到右上角通了为止
         temp_x = height - 2
         temp_y = 1
@@ -48,17 +48,17 @@ class Maze():
         stack = []
         stack.append((temp_x, temp_y))
             # 为防止挖到死角,需要一个栈来回退
-        while self.map[1][width - 3] != 1 and self.map[2][width - 2] != 1:
+        while self._map[1][width - 3] != 1 and self._map[2][width - 2] != 1:
         # while (1, width - 3) not in stack and (2, width - 2) not in stack:
             # 循环的结束条件是挖到出口的通路为止
             can_dig = [True] * 4
-            if temp_x - 2 < 0 or self.map[temp_x - 1][temp_y] != 0:
+            if temp_x - 2 < 0 or self._map[temp_x - 1][temp_y] != 0:
                 can_dig[0] = False
-            if temp_x + 2 > height - 2 or self.map[temp_x + 1][temp_y] != 0:
+            if temp_x + 2 > height - 2 or self._map[temp_x + 1][temp_y] != 0:
                 can_dig[1] = False
-            if temp_y - 2 < 0 or self.map[temp_x][temp_y - 1] != 0:
+            if temp_y - 2 < 0 or self._map[temp_x][temp_y - 1] != 0:
                 can_dig[2] = False
-            if temp_y + 2 > width - 2 or self.map[temp_x][temp_y + 1] != 0:
+            if temp_y + 2 > width - 2 or self._map[temp_x][temp_y + 1] != 0:
                 can_dig[3] = False
 
             if not (can_dig[0] or can_dig[1] or can_dig[2] or can_dig[3]):
@@ -77,16 +77,16 @@ class Maze():
                 direction = 3
             if can_dig[direction - 1]:
                 if direction == 1:
-                    self.map[temp_x - 1][temp_y] = 1
+                    self._map[temp_x - 1][temp_y] = 1
                     temp_x -= 2
                 elif direction == 2:
-                    self.map[temp_x + 1][temp_y] = 1
+                    self._map[temp_x + 1][temp_y] = 1
                     temp_x += 2
                 elif direction == 3:
-                    self.map[temp_x][temp_y - 1] = 1
+                    self._map[temp_x][temp_y - 1] = 1
                     temp_y -= 2
                 else:
-                    self.map[temp_x][temp_y + 1] = 1
+                    self._map[temp_x][temp_y + 1] = 1
                     temp_y += 2
 
             stack.append((temp_x, temp_y))
@@ -129,25 +129,29 @@ class Maze():
                     for j in range(y, y+size_y):
                         if j > width - 2:
                             break
-                        self.map[i][j] = 1
+                        self._map[i][j] = 1
 
                 regions.append((x, y, x + size_x, y + size_y))
                 counter += 1
 
         # 调试中使用展示完成效果
-        # self.print_map()
+        self.print_map()
 
     def print_map(self):
         os.system("cls")
         print("开始画图")
-        for i in range(len(self.map)):
-            for j in range(len(self.map[0])):
-                print("O" if self.map[i][j] == 0 else " ",end = "")
+        for i in range(len(self._map)):
+            for j in range(len(self._map[0])):
+                print("O" if self._map[i][j] == 0 else " ",end = "")
             print()
         print("完成")
+
+    @property
+    def map(self):
+        return self._map
 # test
 if __name__ == '__main__':
     maze = Maze(3)
 
 
-
+ 

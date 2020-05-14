@@ -10,5 +10,9 @@ class Const():
     maze_region_number_dict = {1 : 10, 2 : 17, 3 : 30}
         # key为难度等级,value为对应等级下的区域数目
 
+    screen_height = 640
+    screen_width = 800
+
+    color_default_background = (230, 230, 230)
     def __init__(self):
         pass
