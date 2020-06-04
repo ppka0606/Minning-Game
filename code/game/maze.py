@@ -134,6 +134,12 @@ class Maze():
                 regions.append((x, y, x + size_x, y + size_y))
                 counter += 1
 
+        # 封堵住单一口的空白
+        for i in range(1, Const.maze_height_square - 1):
+            for j in range(1, Const.maze_width_square - 1):
+                if self._map[i][j] == 1 and self._map[i][j - 1] == 0 and self._map[i][j + 1] == 0 and self._map[i - 1][j] == 0 and self._map[i + 1][j] == 0:
+                    self._map[i][j] = 0
+
         # 调试中使用展示完成效果
         self.print_map()
 
@@ -149,9 +155,8 @@ class Maze():
     @property
     def map(self):
         return self._map
+
 # test
 if __name__ == '__main__':
-    maze = Maze(3)
-
-
- 
+    maze = Maze(1)
+    # print(maze.map)
