@@ -8,11 +8,14 @@ class Image():
         self.image = pygame.image.load(image_path)
         
         self.image.set_colorkey((255,255,255))
-        self._rect = self.image.get_rect()
-        
-        self._posx = 0
-        self._posy = 0
+        # self._rect = self.image.get_rect()
 
-    def blit_image(self):
-        self.screen.blit(self.image, self._rect)
+    def blit_image(self, screen, posx, posy):
+        screen.blit(self.image, (posx,posy))
     
+class ImageWall(Image):
+    """
+    迷宫的墙的图片
+    """
+    def __init__(self):
+        super(ImageWall, self).__init__(r"resource\mingingGame\game\stonewall.bmp")
