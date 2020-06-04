@@ -2,17 +2,25 @@ class Const():
     """
     定义供全局使用的常数
     """
-    maze_width_square = 37
-    maze_height_square = 29 
-        # 迷宫的长宽方格数
-    maze_region_max_size_dict = {1 : 9, 2 : 7, 3 : 5}
-        # key为迷宫的难度等级,value为对应等级的迷宫一块区域最大的长宽跨度(单位:格数)
-    maze_region_number_dict = {1 : 10, 2 : 17, 3 : 30}
-        # key为难度等级,value为对应等级下的区域数目
+    MAZE_WIDTH_SQUARE = 37
+    MAZE_HEIGHT_SQUARE = 29 # 迷宫的长宽方格数
+    MAZE_SQUARE_PIXEL = 16
 
-    screen_height = 640
-    screen_width = 800
+    MAZE_REGION_MAX_SIZE_DICT = {1 : 9, 2 : 7, 3 : 5}
+        # KEY为迷宫的难度等级,VALUE为对应等级的迷宫一块区域最大的长宽跨度(单位:格数)
+    MAZE_REGION_NUMBER_DICT = {1 : 10, 2 : 17, 3 : 30}
+        # KEY为难度等级,VALUE为对应等级下的区域数目
 
-    color_default_background = (230, 230, 230)
+    GAME_SURFACE_WIDTH = MAZE_SQUARE_PIXEL * MAZE_WIDTH_SQUARE
+    GAME_SURFACE_HEIGHT = MAZE_SQUARE_PIXEL * MAZE_HEIGHT_SQUARE
+
+    SCREEN_HEIGHT = 640
+    SCREEN_WIDTH = 800
+
+    # 游戏运行时的主要区域的起始坐标
+    GAME_INTERFACE_MAINAREA_POSX = (SCREEN_WIDTH - MAZE_SQUARE_PIXEL * MAZE_WIDTH_SQUARE) / 2 
+    GAME_INTERFACE_MAINAREA_POSY = (SCREEN_HEIGHT - MAZE_SQUARE_PIXEL * MAZE_HEIGHT_SQUARE) / 2 
+
+    COLOR_DEFAULT_BACKGROUND = (230, 230, 230)
     def __init__(self):
         pass
