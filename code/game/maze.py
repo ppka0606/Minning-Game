@@ -15,7 +15,7 @@ class Maze():
         """
         self.level = level
 
-        self._map = [[0] * Const.maze_width_square for _ in range(Const.maze_height_square)]
+        self._map = [[0] * Const.MAZE_WIDTH_SQUARE for _ in range(Const.MAZE_HEIGHT_SQUARE)]
         self.create_map()
     
     def create_map(self):
@@ -26,11 +26,11 @@ class Maze():
         # 考虑到这个是挖矿游戏,好像宽度1的迷宫不是很合适
         # 参考了 https://zhuanlan.zhihu.com/p/27381213 的算法3并做了一定修改,更像# 是一个矿井
         
-        maze_region_max_size = Const.maze_region_max_size_dict[self.level]
-        maze_region_number = Const.maze_region_number_dict[self.level]
+        maze_region_max_size = Const.MAZE_REGION_MAX_SIZE_DICT[self.level]
+        maze_region_number = Const.MAZE_REGION_NUMBER_DICT[self.level]
         
-        height = Const.maze_height_square
-        width = Const.maze_width_square
+        height = Const.MAZE_HEIGHT_SQUARE
+        width = Const.MAZE_WIDTH_SQUARE
         
         # 制造间隔
         for i in range(1, height, 2):
@@ -75,6 +75,7 @@ class Maze():
                 direction = 1
             elif direction == 6:
                 direction = 3
+
             if can_dig[direction - 1]:
                 if direction == 1:
                     self._map[temp_x - 1][temp_y] = 1
@@ -135,13 +136,13 @@ class Maze():
                 counter += 1
 
         # 封堵住单一口的空白
-        for i in range(1, Const.maze_height_square - 1):
-            for j in range(1, Const.maze_width_square - 1):
+        for i in range(1, Const.MAZE_HEIGHT_SQUARE - 1):
+            for j in range(1, Const.MAZE_WIDTH_SQUARE - 1):
                 if self._map[i][j] == 1 and self._map[i][j - 1] == 0 and self._map[i][j + 1] == 0 and self._map[i - 1][j] == 0 and self._map[i + 1][j] == 0:
                     self._map[i][j] = 0
 
         # 调试中使用展示完成效果
-        self.print_map()
+        # self.print_map()
 
     def print_map(self):
         os.system("cls")
@@ -157,6 +158,6 @@ class Maze():
         return self._map
 
 # test
-if __name__ == '__main__':
-    maze = Maze(1)
-    # print(maze.map)
+# if __name__ == '__main__':
+#     maze = Maze(1)
+#     # print(maze.map)
