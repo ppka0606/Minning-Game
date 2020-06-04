@@ -5,17 +5,22 @@ from maze import Maze
 from const import Const
 import user
 import game_functions as gf
+import map_functions as mf
 
 
 if __name__ =="__main__":
     # user.User.get_user_list()
     pygame.init()
     
-    screen = pygame.display.set_mode((Const.screen_width, Const.screen_height))
+    screen = pygame.display.set_mode((Const.SCREEN_WIDTH, Const.SCREEN_HEIGHT))
     pygame.display.set_caption("Minging Game")
+
+    maze = Maze(1).map
 
     while True:
         gf.check_events(screen)
         
-        screen.fill(Const.color_default_background)  # 背景色
+        screen.fill(Const.COLOR_DEFAULT_BACKGROUND)  # 背景色
+        mf.draw_map(screen, maze)
+
         pygame.display.flip()
