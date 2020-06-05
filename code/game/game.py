@@ -3,9 +3,9 @@ import os
 
 from maze import Maze
 from const import Const
-import user
+from status import Status
+
 import game_functions as gf
-import map_functions as mf
 
 
 if __name__ =="__main__":
@@ -15,12 +15,15 @@ if __name__ =="__main__":
     screen = pygame.display.set_mode((Const.SCREEN_WIDTH, Const.SCREEN_HEIGHT))
     pygame.display.set_caption("挖矿游戏")
 
-    maze = Maze(3).map
+    status = Status()
+    status.maze = Maze(3).map
+    fclock = pygame.time.Clock()
 
     while True:
-        gf.check_events(screen)
-        
         screen.fill(Const.COLOR_DEFAULT_BACKGROUND)  # 背景色
-        mf.draw_map(screen, maze)
+
+        gf.check_events(screen, status)
+        gf.update_screen(screen, status)
 
         pygame.display.flip()
+        fclock.tick(Const.CLOCK_FPS)
