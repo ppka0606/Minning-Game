@@ -24,5 +24,7 @@ class Const():
     GAME_INTERFACE_MAINAREA_POSY = (SCREEN_HEIGHT - MAZE_SQUARE_PIXEL * MAZE_HEIGHT_SQUARE) / 2 
 
     COLOR_DEFAULT_BACKGROUND = (0, 0, 0)
+
+    CLOCK_FPS = 30
     def __init__(self):
         pass
