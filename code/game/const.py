@@ -8,9 +8,9 @@ class Const():
     MAZE_ROAD = 1
     MAZE_WALL = 0 
 
-    MAZE_REGION_MAX_SIZE_DICT = {1 : 9, 2 : 7, 3 : 5}
+    MAZE_REGION_SIZE_DICT = {1 : 7, 2 : 5, 3 : 3}
         # KEY为迷宫的难度等级,VALUE为对应等级的迷宫一块区域最大的长宽跨度(单位:格数)
-    MAZE_REGION_NUMBER_DICT = {1 : 10, 2 : 17, 3 : 30}
+    MAZE_REGION_NUMBER_DICT = {1 : 8, 2 : 15, 3 : 30}
         # KEY为难度等级,VALUE为对应等级下的区域数目
 
     GAME_SURFACE_WIDTH = MAZE_SQUARE_PIXEL * MAZE_WIDTH_SQUARE
@@ -23,6 +23,6 @@ class Const():
     GAME_INTERFACE_MAINAREA_POSX = (SCREEN_WIDTH - MAZE_SQUARE_PIXEL * MAZE_WIDTH_SQUARE) / 2 
     GAME_INTERFACE_MAINAREA_POSY = (SCREEN_HEIGHT - MAZE_SQUARE_PIXEL * MAZE_HEIGHT_SQUARE) / 2 
 
-    COLOR_DEFAULT_BACKGROUND = (230, 230, 230)
+    COLOR_DEFAULT_BACKGROUND = (0, 0, 0)
     def __init__(self):
         pass
