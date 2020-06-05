@@ -1,6 +1,5 @@
 import os
 from random import randint
-
 from const import Const
 
 
@@ -22,11 +21,7 @@ class Maze():
         """
         按一定算法生成一个迷宫并存储在map中
         """
-        # 随机生成迷宫
-        # 考虑到这个是挖矿游戏,好像宽度1的迷宫不是很合适
-        # 参考了 https://zhuanlan.zhihu.com/p/27381213 的算法3并做了一定修改,更像# 是一个矿井
-        
-        maze_region_max_size = Const.MAZE_REGION_MAX_SIZE_DICT[self.level]
+        maze_region_max_size = Const.MAZE_REGION_SIZE_DICT[self.level]
         maze_region_number = Const.MAZE_REGION_NUMBER_DICT[self.level]
         
         height = Const.MAZE_HEIGHT_SQUARE
@@ -76,11 +71,39 @@ class Maze():
                 y += dy
                 visited[x][y] = True
                 visit_stack.append((x,y))
-                
-            # self.print_map()
 
+        self.print_map()
+        # 接下来制造地图中的空白地形
+
+        rect_list = [(1000, 1000)] # 给定一个填充值，方便循环进行
+        area = Const.MAZE_REGION_SIZE_DICT[self.level]
+        num = Const.MAZE_REGION_NUMBER_DICT[self.level]
+        wall_width = (Const.MAZE_WIDTH_SQUARE - 1) // 2
+        wall_height = (Const.MAZE_HEIGHT_SQUARE - 1) // 2
+
+        while len(rect_list) <= num:
+            posx = randint(1, wall_height - 1)
+            posy = randint(1, wall_width - 1)
+            posx *= 2
+            posy *= 2
+
+            can_blank = True
+            for rect in rect_list:
+                if abs(posx - rect[0]) <= area and abs(posy - rect[1]) <= area:
+                    can_blank = False
+                    break
+            
+            if can_blank:
+                rect_list.append((posx, posy))
+                down_edge = min(posx + area, Const.MAZE_HEIGHT_SQUARE - 2)
+                right_edge = min(posy + area, Const.MAZE_WIDTH_SQUARE - 2)
+                for i in range(posx, down_edge):
+                    for j in range(posy, right_edge):
+                        self._map[i][j] = Const.MAZE_ROAD
+
+                # self.print_map()
         # # 调试中使用展示完成效果
-        # self.print_map()
+        self.print_map()
 
     def print_map(self):
         os.system("cls")
@@ -97,4 +120,4 @@ class Maze():
 
 # # test
 if __name__ == '__main__':
-    maze = Maze(1)
+    maze = Maze(3)
