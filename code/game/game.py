@@ -7,7 +7,6 @@ from status import Status
 
 import game_functions as gf
 
-
 if __name__ =="__main__":
     # user.User.get_user_list()
     pygame.init()
@@ -15,12 +14,12 @@ if __name__ =="__main__":
     screen = pygame.display.set_mode((Const.SCREEN_WIDTH, Const.SCREEN_HEIGHT))
     pygame.display.set_caption("挖矿游戏")
 
-    status = Status()
+    status = Status(screen)
     status.maze = Maze(3).map
     fclock = pygame.time.Clock()
 
     while True:
-        screen.fill(Const.COLOR_DEFAULT_BACKGROUND)  # 背景色
+        screen.fill(Const.COLOR_BLACK)  # 背景色
 
         gf.check_events(screen, status)
         gf.update_screen(screen, status)

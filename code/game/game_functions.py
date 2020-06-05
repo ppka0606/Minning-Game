@@ -4,6 +4,7 @@ import os
 from image import ImageWall, ImageSoil
 
 from const import Const
+from button import Button
 
 def check_events(screen, status):
     """
@@ -18,10 +19,13 @@ def check_events(screen, status):
 
 def update_screen(screen, status):
     draw_map(screen, status.maze)
+    b = Button(screen, "try button", 400, 400)
+    for button in status.buttons:
+        button.blit_button()
 
 
 def draw_login(screen):
-
+    pass
 
 def draw_map(screen, maze):
     """
