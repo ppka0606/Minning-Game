@@ -13,9 +13,9 @@ if __name__ =="__main__":
     pygame.init()
     
     screen = pygame.display.set_mode((Const.SCREEN_WIDTH, Const.SCREEN_HEIGHT))
-    pygame.display.set_caption("Minging Game")
+    pygame.display.set_caption("挖矿游戏")
 
-    maze = Maze(1).map
+    maze = Maze(3).map
 
     while True:
         gf.check_events(screen)
