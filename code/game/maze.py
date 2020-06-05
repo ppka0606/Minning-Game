@@ -72,7 +72,7 @@ class Maze():
                 visited[x][y] = True
                 visit_stack.append((x,y))
 
-        self.print_map()
+        # self.print_map()
         # 接下来制造地图中的空白地形
 
         rect_list = [(1000, 1000)] # 给定一个填充值，方便循环进行
@@ -103,7 +103,7 @@ class Maze():
 
                 # self.print_map()
         # # 调试中使用展示完成效果
-        self.print_map()
+        # self.print_map()
 
     def print_map(self):
         os.system("cls")
