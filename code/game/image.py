@@ -19,3 +19,10 @@ class ImageWall(Image):
     """
     def __init__(self):
         super(ImageWall, self).__init__(r"resource\mingingGame\game\stonewall.bmp")
+
+class ImageSoil(Image):
+    """
+    迷宫的地面图片
+    """
+    def __init__(self):
+        super(ImageSoil, self).__init__(r"resource\mingingGame\game\soil.bmp")
