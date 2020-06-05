@@ -5,6 +5,8 @@ class Const():
     MAZE_WIDTH_SQUARE = 37
     MAZE_HEIGHT_SQUARE = 29 # 迷宫的长宽方格数
     MAZE_SQUARE_PIXEL = 16
+    MAZE_ROAD = 1
+    MAZE_WALL = 0 
 
     MAZE_REGION_MAX_SIZE_DICT = {1 : 9, 2 : 7, 3 : 5}
         # KEY为迷宫的难度等级,VALUE为对应等级的迷宫一块区域最大的长宽跨度(单位:格数)
