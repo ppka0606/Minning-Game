@@ -1,5 +1,6 @@
 from button import Button
 from const import Const
+from player import Player
 
 class Status():
     """
@@ -19,6 +20,11 @@ class Status():
     LEVEL2 = 2
     LEVEL3 = 3
 
+    PLAYER1 = 1
+    PLAYER2 = 2
+    PLAYER3 = 3
+
+
     def __init__(self, screen):
         """
         初始化游戏状态
@@ -27,16 +33,33 @@ class Status():
 
         self.interface = self.INTERFACE_LOGIN
         self.level = self.LEVELBEGIN
-        self.player = r"Input player name:"
+        self.user = r"Input player name:"
+
+        # 方向键状态，表明是否有一直按下某个键
+        self.key_right = False
+        self.key_left = False
+        self.key_up = False
+        self.key_down = False
 
         self.map = None
         self.distribution = None
         self.add_buttons()
 
-    def add_buttons(self):
-        self.buttons = []
-        self.buttons.append(Button(self.screen, "Score: 00000", 0, 0, width = 250, fontsize = 36)) # 添加左上角分数按钮
-        self.buttons.append(Button(self.screen, "Time: 000s", Const.SCREEN_WIDTH - 128, 0, fontsize = 36)) # 右上角剩余时间
+        self.player_kind = 1
 
-if __name__ == "__main__":
-    a = Status()
+        self.player = None
+
+    def add_buttons(self):
+        self.buttons = {}
+
+        self.buttons["score"] = Button(self.screen, "Score: 00000", posx = 0, posy = 0, fontsize = 24) # 添加左上角分数按钮
+
+        self.buttons["time"] = Button(self.screen, "Time: 000s",posx = Const.SCREEN_WIDTH - 130, posy = 0, width = 130,fontsize = 24) # 右上角剩余时间
+        
+        self.buttons["start"] = Button(self.screen, "开始游戏", posy = 250, fonsize = 40)
+        self.buttons["help"] = Button(self.screen, "帮助菜单" , posy = 350, fontsize = 40)
+
+        self.buttons["pause"] = Button(self.screen, "暂 停", width = 120, height = 40, posx = Const.SCREEN_WIDTH - 120, posy = Const.SCREEN_HEIGHT -40, fontsize = 30)
+
+        self.buttons["exit_yes"] = Button(self.screen, "确认退出", width = 120,height = 40, posx = 200)
+        self.buttons["exit_no"] = Button(self.screen, "返回菜单" , width = 120, height = 40, posx =480)
