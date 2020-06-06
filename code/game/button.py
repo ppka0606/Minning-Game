@@ -1,7 +1,9 @@
 import os
 import pygame
 import pygame.color
+
 from const import Const
+
 
 class Button():
     """
@@ -10,21 +12,21 @@ class Button():
     其实这里的功能更加类似于label，因为鼠标按钮的事件与它是分开进行的
     """
 
-    def __init__(self, screen, text, posx, posy, **kwargs):
+    def __init__(self, screen, text, **kwargs):
         self.screen = screen
         self.text = text
-        self.posx = posx
-        self.posy = posy
 
         self.width = kwargs.get("width", 200)
         self.height = kwargs.get("height", 50)
         self.color = kwargs.get("button_color", Const.COLOR_BLUE)
         self.text_color = kwargs.get("text_color", Const.COLOR_WHITE)
-
+        self.posx = kwargs.get("posx", (Const.SCREEN_WIDTH - self.width) // 2)
+        self.posy = kwargs.get("posy", (Const.SCREEN_HEIGHT - self.height) // 2)
         fontsize= kwargs.get("fontsize", 48)
-        self.font = pygame. font.SysFont(None, fontsize)
 
-        self.rect = pygame.Rect(0, 0, self.width, self.height)
+        self.font = pygame.font.Font(r"resource\mingingGame\font\simsun.ttc", fontsize)
+
+        self.rect = pygame.Rect(self.posx, self.posy, self.width, self.height)
 
         self.prep_text()
     
@@ -37,9 +39,22 @@ class Button():
         self.message_rect.center = self.rect.center
     
     def blit_button(self):
-        # self.screen.fill(self.button_color, self.rect)
-        self.screen.blit(self.message_image, (self.posx, self.posy))
+        self.screen.fill(self.color, self.rect)
+        self.screen.blit(self.message_image, self.message_rect)
 
     def update_text(text):
         self.text = text
+        self.prep_text()
+
+    def in_area(self, posx, posy):
+        """
+        判断是否再按钮区域内
+        """
+        return (self.posx <= posx and self.posx + self.width >= posx and self.posy <= posy and self.posy + self.height >= posy)
+
+    def change_text_color(self, text_color):
+        """
+        改变颜色，在选中某些选项时可能会使用
+        """
+        self.text_color = text_color
         self.prep_text()
