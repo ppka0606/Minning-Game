@@ -19,7 +19,11 @@ class Button():
         self.width = kwargs.get("width", 200)
         self.height = kwargs.get("height", 50)
         self.color = kwargs.get("button_color", Const.COLOR_BLUE)
+
         self.text_color = kwargs.get("text_color", Const.COLOR_WHITE)
+        self.unselected_color = self.text_color
+        self.selected_color = kwargs.get("selected_color",Const.COLOR_RED)
+
         self.posx = kwargs.get("posx", (Const.SCREEN_WIDTH - self.width) // 2)
         self.posy = kwargs.get("posy", (Const.SCREEN_HEIGHT - self.height) // 2)
         fontsize= kwargs.get("fontsize", 48)
@@ -28,12 +32,15 @@ class Button():
 
         self.rect = pygame.Rect(self.posx, self.posy, self.width, self.height)
 
-        self.prep_text()
-    
+        self.lock_color = False
+
+        self.prep_text()    
     def prep_text(self):
         """
         先将text渲染为图像，然后插入到按钮上
         """
+        if self.lock_color:
+            self.text_color = self.selected_color
         self.message_image = self.font.render(self.text, True, self.text_color, self.color)
         self.message_rect = self.message_image.get_rect()
         self.message_rect.center = self.rect.center
@@ -42,19 +49,26 @@ class Button():
         self.screen.fill(self.color, self.rect)
         self.screen.blit(self.message_image, self.message_rect)
 
-    def update_text(text):
+    def update_text(self, text):
         self.text = text
         self.prep_text()
 
-    def in_area(self, posx, posy):
+    def selected(self, mousex, mousey):
         """
         判断是否再按钮区域内
         """
-        return (self.posx <= posx and self.posx + self.width >= posx and self.posy <= posy and self.posy + self.height >= posy)
+        if (self.posx <= mousex and self.posx + self.width >= mousex and self.posy <= mousey and self.posy + self.height >= mousey):
+            self.text_color = self.selected_color
+            self.prep_text()
+            return True
+        else:
+            self.text_color = self.unselected_color
+            self.prep_text()
+            return False
 
-    def change_text_color(self, text_color):
-        """
-        改变颜色，在选中某些选项时可能会使用
-        """
-        self.text_color = text_color
-        self.prep_text()
+    def lock(self):
+        self.lock_color = True
+
+    def unlock(self):
+        self.lock_color = False
+
