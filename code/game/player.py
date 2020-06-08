@@ -40,7 +40,7 @@ class Player():
         self.check_takeup()
         
         if self.maze != None:
-            if self.maze[1][2] == Const.MAZE_ROAD:
+            if self.maze[1][2] != Const.MAZE_WALL:
                 self.direction = self.DIRECTION_RIGHT
             else:
                 self.direction = self.DIRECTION_DOWN
@@ -60,16 +60,15 @@ class Player():
 
         if self.direction != self.DIRECTION_UP:
             self.direction = self.DIRECTION_UP
-            self.walkstatus = self.STILL
             return # 单次按键只转向不移动
         limit = 0
         if self.takeup[1] == None:  # 横向占1格
-            if self.maze[self.takeup[0][0] - 1][self.takeup[0][1]] == Const.MAZE_ROAD:
+            if self.maze[self.takeup[0][0] - 1][self.takeup[0][1]] != Const.MAZE_WALL:
                 limit = Const.MIN_VALUE
             else:
                 limit = self.takeup[0][0] * Const.MAZE_SQUARE_PIXEL + Const.PLAYER_HEIGHT_PIXEL
         else:
-            if self.maze[self.takeup[0][0] - 1][self.takeup[0][1]] == Const.MAZE_ROAD and self.maze[self.takeup[1][0] - 1][self.takeup[1][1]] == Const.MAZE_ROAD :
+            if self.maze[self.takeup[0][0] - 1][self.takeup[0][1]] != Const.MAZE_WALL and self.maze[self.takeup[1][0] - 1][self.takeup[1][1]] != Const.MAZE_WALL :
                 limit = Const.MIN_VALUE
             else:
                 limit = self.takeup[0][0] * Const.MAZE_SQUARE_PIXEL + Const.PLAYER_HEIGHT_PIXEL
@@ -80,29 +79,28 @@ class Player():
 
         if self.direction != self.DIRECTION_DOWN:
             self.direction = self.DIRECTION_DOWN
-            self.walkstatus = self.STILL
             return 
 
         limit = 0
         if self.takeup[1] == None:
             if self.takeup[2] == None:
-                if self.maze[self.takeup[0][0] + 1][self.takeup[0][1]] == Const.MAZE_ROAD:
+                if self.maze[self.takeup[0][0] + 1][self.takeup[0][1]] != Const.MAZE_WALL:
                     limit = Const.MAX_VALUE
                 else:
                     limit = (self.takeup[0][0] + 1) * Const.MAZE_SQUARE_PIXEL
             else:
-                if self.maze[self.takeup[0][0] + 2][self.takeup[0][1]] == Const.MAZE_ROAD:
+                if self.maze[self.takeup[0][0] + 2][self.takeup[0][1]] != Const.MAZE_WALL:
                     limit = Const.MAX_VALUE
                 else:
                     limit = (self.takeup[0][0] + 2) * Const.MAZE_SQUARE_PIXEL
         else:
             if self.takeup[2] == None:
-                if self.maze[self.takeup[0][0] + 1][self.takeup[0][1]] == Const.MAZE_ROAD and self.maze[self.takeup[1][0] + 1][self.takeup[1][1]] == Const.MAZE_ROAD:
+                if self.maze[self.takeup[0][0] + 1][self.takeup[0][1]] != Const.MAZE_WALL and self.maze[self.takeup[1][0] + 1][self.takeup[1][1]] != Const.MAZE_WALL:
                     limit = Const.MAX_VALUE
                 else:
                     limit = (self.takeup[0][0] + 1) * Const.MAZE_SQUARE_PIXEL
             else:
-                if self.maze[self.takeup[0][0] + 2][self.takeup[0][1]] == Const.MAZE_ROAD and self.maze[self.takeup[1][0] + 2][self.takeup[1][1]] == Const.MAZE_ROAD:
+                if self.maze[self.takeup[0][0] + 2][self.takeup[0][1]] != Const.MAZE_WALL and self.maze[self.takeup[1][0] + 2][self.takeup[1][1]] != Const.MAZE_WALL:
                     limit = Const.MAX_VALUE
                 else:
                     limit = (self.takeup[0][0] + 2) * Const.MAZE_SQUARE_PIXEL
@@ -114,20 +112,19 @@ class Player():
 
         if self.direction != self.DIRECTION_LEFT:
             self.direction = self.DIRECTION_LEFT
-            self.walkstatus = self.STILL
             return
 
         limit = 0
         if self.takeup[2] == None:  # 纵向占1格
-            if self.maze[self.takeup[0][0]][self.takeup[0][1] - 1] == Const.MAZE_ROAD:
+            if self.maze[self.takeup[0][0]][self.takeup[0][1] - 1] != Const.MAZE_WALL:
                 limit = Const.MIN_VALUE
             else:
                 limit = self.takeup[0][1] * Const.MAZE_SQUARE_PIXEL
         else:
-            if self.maze[self.takeup[0][0]][self.takeup[0][1] - 1] == Const.MAZE_ROAD and self.maze[self.takeup[2][0]][self.takeup[2][1] - 1] == Const.MAZE_ROAD :
+            if self.maze[self.takeup[0][0]][self.takeup[0][1] - 1] != Const.MAZE_WALL and self.maze[self.takeup[2][0]][self.takeup[2][1] - 1] != Const.MAZE_WALL :
                 limit = Const.MIN_VALUE
             else:
-                limit = self.takeup[0][0] * Const.MAZE_SQUARE_PIXEL
+                limit = self.takeup[0][1] * Const.MAZE_SQUARE_PIXEL
         self.actual_posx = max(limit, self.actual_posx - self.speed)
 
     def go_right(self):
@@ -135,32 +132,31 @@ class Player():
 
         if self.direction != self.DIRECTION_RIGHT:
             self.direction = self.DIRECTION_RIGHT
-            self.walkstatus = self.STILL
             return
 
         limit = 0
         if self.takeup[2] == None:
-            if self.takeup[1] == None: #下面的都还没改
-                if self.maze[self.takeup[0][0]][self.takeup[0][1] + 1] == Const.MAZE_ROAD:
+            if self.takeup[1] == None: 
+                if self.maze[self.takeup[0][0]][self.takeup[0][1] + 1] != Const.MAZE_WALL:
                     limit = Const.MAX_VALUE
                 else:
                     limit = (self.takeup[0][1] + 1) * Const.MAZE_SQUARE_PIXEL - Const.PLAYER_WIDTH_PIXEL
             else:
-                if self.maze[self.takeup[0][0]][self.takeup[0][1] + 2] == Const.MAZE_ROAD:
+                if self.maze[self.takeup[0][0]][self.takeup[0][1] + 2] != Const.MAZE_WALL:
                     limit = Const.MAX_VALUE
                 else:
                     limit = (self.takeup[0][1] + 2) * Const.MAZE_SQUARE_PIXEL - Const.PLAYER_WIDTH_PIXEL
         else:
             if self.takeup[1] == None:
-                if self.maze[self.takeup[0][0]][self.takeup[0][1] + 1] == Const.MAZE_ROAD and self.maze[self.takeup[2][0]][self.takeup[2][1] + 1] == Const.MAZE_ROAD:
+                if self.maze[self.takeup[0][0]][self.takeup[0][1] + 1] != Const.MAZE_WALL and self.maze[self.takeup[2][0]][self.takeup[2][1] + 1] != Const.MAZE_WALL:
                     limit = Const.MAX_VALUE
                 else:
                     limit = (self.takeup[0][1] + 1) * Const.MAZE_SQUARE_PIXEL - Const.PLAYER_WIDTH_PIXEL
             else:
-                if self.maze[self.takeup[0][0]][self.takeup[0][1] + 2] == Const.MAZE_ROAD and self.maze[self.takeup[2][0]][self.takeup[2][1] + 2] == Const.MAZE_ROAD:
+                if self.maze[self.takeup[0][0]][self.takeup[0][1] + 2] != Const.MAZE_WALL and self.maze[self.takeup[2][0]][self.takeup[2][1] + 2] != Const.MAZE_WALL:
                     limit = Const.MAX_VALUE
                 else:
-                    limit = (self.takeup[0][0] + 2) * Const.MAZE_SQUARE_PIXEL - Const.PLAYER_WIDTH_PIXEL
+                    limit = (self.takeup[0][1] + 2) * Const.MAZE_SQUARE_PIXEL - Const.PLAYER_WIDTH_PIXEL
         
         self.actual_posx = min(limit, self.actual_posx + self.speed)
 
