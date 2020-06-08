@@ -71,4 +71,7 @@ class Button():
 
     def unlock(self):
         self.lock_color = False
-
+        
+    def change_color(self, button_color):
+        self.color = button_color
+        self.prep_text()

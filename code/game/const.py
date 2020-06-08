@@ -12,7 +12,8 @@ class Const():
     MAZE_DISPLAY_HEIGHT_SQUARE = 11
     MAZE_SQUARE_PIXEL = 40
     MAZE_ROAD = 1
-    MAZE_WALL = 0 
+    MAZE_WALL = 0
+    MAZE_FLAG = 2 
 
     PLAYER_WIDTH_PIXEL = 30
     PLAYER_HEIGHT_PIXEL = 30
@@ -22,8 +23,10 @@ class Const():
     MAZE_REGION_NUMBER_DICT = {1 : 8, 2 : 15, 3 : 30}
         # KEY为难度等级,VALUE为对应等级下的区域数目
 
-    GAME_SURFACE_WIDTH = MAZE_SQUARE_PIXEL * MAZE_WIDTH_SQUARE
-    GAME_SURFACE_HEIGHT = MAZE_SQUARE_PIXEL * MAZE_HEIGHT_SQUARE
+    TIME = {1 : 120, 2 : 150, 3 : 180}
+
+    GAME_SURFACE_WIDTH = MAZE_SQUARE_PIXEL * MAZE_DISPLAY_WIDTH_SQUARE
+    GAME_SURFACE_HEIGHT = MAZE_SQUARE_PIXEL * MAZE_DISPLAY_HEIGHT_SQUARE
 
     SCREEN_HEIGHT = 640
     SCREEN_WIDTH = 800
@@ -42,7 +45,8 @@ class Const():
 
     CLOCK_FPS = 25
 
-    PLAYER_SPEED = ( (MAZE_WIDTH_SQUARE - 2) * MAZE_SQUARE_PIXEL / CLOCK_FPS / 15, (MAZE_HEIGHT_SQUARE - 2) * MAZE_SQUARE_PIXEL / CLOCK_FPS / 20, (MAZE_HEIGHT_SQUARE - 2) * MAZE_SQUARE_PIXEL / CLOCK_FPS / 25) # 三种人物，速度为走完横向距离分别用时15s，20s，25s
+    PLAYER_SPEED = ( (MAZE_WIDTH_SQUARE - 2) * MAZE_SQUARE_PIXEL / CLOCK_FPS / 5, (MAZE_HEIGHT_SQUARE - 2) * MAZE_SQUARE_PIXEL / CLOCK_FPS / 25, (MAZE_HEIGHT_SQUARE - 2) * MAZE_SQUARE_PIXEL / CLOCK_FPS / 20) # 三种人物，速度为走完横向距离分别用时15s，25s，20s
+    # 测试时使第一个人物速度明显变快，测试完记得改回来并删除这条注释
 
     IMAGE_PLAYER1_ICON_PATH = r"resource\mingingGame\game\player1_2.png"
     IMAGE_PLAYER2_ICON_PATH = r"resource\mingingGame\game\player2_2.png"
@@ -54,5 +58,6 @@ class Const():
 
     IMAGE_WALL_PATH = r"resource\mingingGame\game\stonewall.bmp"
     IMAGE_ROAD_PATH = r"resource\mingingGame\game\soil.bmp"
+    IMAGE_FLAG_PATH = r"resource\mingingGame\game\flag.bmp"
     def __init__(self):
         pass
