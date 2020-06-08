@@ -101,6 +101,7 @@ class Maze():
                     for j in range(posy, right_edge):
                         self._map[i][j] = Const.MAZE_ROAD
 
+        self._map[Const.MAZE_HEIGHT_SQUARE - 2][Const.MAZE_WIDTH_SQUARE - 2] = Const.MAZE_FLAG
                 # self.print_map()
         # # 调试中使用展示完成效果
         # self.print_map()
