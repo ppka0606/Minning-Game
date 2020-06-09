@@ -75,3 +75,7 @@ class Button():
     def change_color(self, button_color):
         self.color = button_color
         self.prep_text()
+
+    def change_text_color(self, text_color):
+        self.text_color = text_color
+        self.prep_text()
