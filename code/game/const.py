@@ -13,7 +13,9 @@ class Const():
     MAZE_SQUARE_PIXEL = 40
     MAZE_ROAD = 1
     MAZE_WALL = 0
-    MAZE_FLAG = 2 
+    MAZE_FLAG = 2
+    MAZE_TIMEDIAMOND = 3
+    MAZE_SCOREDIAMOND = 4
 
     PLAYER_WIDTH_PIXEL = 30
     PLAYER_HEIGHT_PIXEL = 30
@@ -23,13 +25,24 @@ class Const():
     MAZE_REGION_NUMBER_DICT = {1 : 8, 2 : 15, 3 : 30}
         # KEY为难度等级,VALUE为对应等级下的区域数目
 
-    TIME = {1 : 120, 2 : 150, 3 : 180}
+    TIME = {1 : 999, 2 : 150, 3 : 180}
 
     GAME_SURFACE_WIDTH = MAZE_SQUARE_PIXEL * MAZE_DISPLAY_WIDTH_SQUARE
     GAME_SURFACE_HEIGHT = MAZE_SQUARE_PIXEL * MAZE_DISPLAY_HEIGHT_SQUARE
 
+
+
+
     SCREEN_HEIGHT = 640
     SCREEN_WIDTH = 800
+
+    # 显示概率分布图的常数
+    DISTRIBUTION_PIXEL = 15
+    DISTRIBUTION_WIDTH = DISTRIBUTION_PIXEL * MAZE_WIDTH_SQUARE
+    DISTRIBUTION_HEIGHT = DISTRIBUTION_PIXEL * MAZE_HEIGHT_SQUARE
+    DISTRIBUTION_POSX = (SCREEN_WIDTH - DISTRIBUTION_WIDTH) // 2
+    DISTRIBUTION_POSY = (SCREEN_HEIGHT - DISTRIBUTION_HEIGHT) // 2
+
 
     # 游戏运行时的主要区域的起始坐标
     GAME_INTERFACE_MAINAREA_POSX = (SCREEN_WIDTH - MAZE_SQUARE_PIXEL * MAZE_DISPLAY_WIDTH_SQUARE) // 2 
@@ -42,11 +55,19 @@ class Const():
     COLOR_GREEN     = (0,   255, 0  )
     COLOR_LIGHTGRAY = (220, 220, 220)
     COLOR_DARKGRAY  = (210, 210, 210)
+    COLOR_YELLOW1   = (255, 255, 224)
+    COLOR_YELLOW2   = (238, 238, 209)
+    COLOR_YELLOW3   = (205, 205, 180)
+    COLOR_YELLOW4   = (139, 139, 122)
+    COLOR_YELLOW5   = (255, 255, 0  )
 
     CLOCK_FPS = 25
 
-    PLAYER_SPEED = ( (MAZE_WIDTH_SQUARE - 2) * MAZE_SQUARE_PIXEL / CLOCK_FPS / 5, (MAZE_HEIGHT_SQUARE - 2) * MAZE_SQUARE_PIXEL / CLOCK_FPS / 25, (MAZE_HEIGHT_SQUARE - 2) * MAZE_SQUARE_PIXEL / CLOCK_FPS / 20) # 三种人物，速度为走完横向距离分别用时15s，25s，20s
-    # 测试时使第一个人物速度明显变快，测试完记得改回来并删除这条注释
+    PLAYER_SPEED = ( (MAZE_WIDTH_SQUARE - 2) * MAZE_SQUARE_PIXEL / CLOCK_FPS / 7, (MAZE_HEIGHT_SQUARE - 2) * MAZE_SQUARE_PIXEL / CLOCK_FPS / 12, (MAZE_HEIGHT_SQUARE - 2) * MAZE_SQUARE_PIXEL / CLOCK_FPS / 10) # 三种人物，速度为走完横向距离分别用时7s，12s，10s
+
+    PLAYER_RATE = (0.05, 0.07, 0.08)
+    SCORE_RATE = 0.8 # 生成得分宝石的概率越大，时间宝石的概率越小
+
 
     IMAGE_PLAYER1_ICON_PATH = r"resource\mingingGame\game\player1_2.png"
     IMAGE_PLAYER2_ICON_PATH = r"resource\mingingGame\game\player2_2.png"
@@ -59,5 +80,11 @@ class Const():
     IMAGE_WALL_PATH = r"resource\mingingGame\game\stonewall.bmp"
     IMAGE_ROAD_PATH = r"resource\mingingGame\game\soil.bmp"
     IMAGE_FLAG_PATH = r"resource\mingingGame\game\flag.bmp"
+    IMAGE_ROAD_SCOREDIAMOND_PATH = r"resource\mingingGame\game\soil_scorediamond.bmp"
+    IMAGE_ROAD_TIMEDIAMOND_PATH = r"resource\mingingGame\game\soil_timediamond.bmp"
+
+    PROGRESSBAR_WIDTH = 120
+    PROGRESSBAR_SPEED = (2000, 1000, 1500) # 分别挖矿用时为2s，1s，1.5s
+
     def __init__(self):
         pass
