@@ -4,6 +4,7 @@ import os
 from maze import Maze
 from const import Const
 from status import Status
+from timer import Timer
 
 import game_functions as gf
 
@@ -14,7 +15,6 @@ if __name__ =="__main__":
     screen = pygame.display.set_mode((Const.SCREEN_WIDTH, Const.SCREEN_HEIGHT))
     pygame.display.set_caption("寻宝精灵")
     status = Status(screen)
-    status.maze = Maze(3).map
     fclock = pygame.time.Clock()
 
     while True:
