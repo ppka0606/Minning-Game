@@ -16,6 +16,8 @@ class Maze():
 
         self._map = [[Const.MAZE_WALL] * Const.MAZE_WIDTH_SQUARE for _ in range(Const.MAZE_HEIGHT_SQUARE)]
         self.create_map()
+        self._distribution = [[Const.MAZE_WALL] * Const.MAZE_WIDTH_SQUARE for _ in range(Const.MAZE_HEIGHT_SQUARE)]
+        self.create_distribution()
     
     def create_map(self):
         """
@@ -109,16 +111,19 @@ class Maze():
     def print_map(self):
         os.system("cls")
         print("开始画图")
-        for i in range(len(self._map)):
-            for j in range(len(self._map[0])):
+        for i in range(Const.MAZE_HEIGHT_SQUARE):
+            for j in range(Const.MAZE_WIDTH_SQUARE):
                 print("O" if self._map[i][j] == 0 else " ",end = "")
             print()
         print("完成")
 
+    def create_distribution(self):
+        for i in range(Const.MAZE_HEIGHT_SQUARE):
+            for j in range(Const.MAZE_WIDTH_SQUARE ):
+                if self._map[i][j] != Const.MAZE_WALL:
+                    self._distribution[i][j] = randint(0, 5) / 5
+
     @property
     def map(self):
-        return self._map
+        return (self._map, self._distribution)
 
-# # test
-if __name__ == '__main__':
-    maze = Maze(3)
