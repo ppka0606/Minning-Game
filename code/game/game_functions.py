@@ -19,6 +19,7 @@ def check_exit(screen, status):
             mouse_x, mouse_y = pygame.mouse.get_pos()
             if status.buttons["cancel_exit"].selected(mouse_x, mouse_y):
                 status.close = False
+                status.timer.start()
             if status.buttons["confirm_exit"].selected(mouse_x, mouse_y):
                 os._exit(0)
 
@@ -67,6 +68,8 @@ def check_login(screen, status):
             if status.buttons["start"].selected(mouse_x, mouse_y)and status.player_kind != Status.PLAYERBEGIN:
                 status.interface = Status.INTERFACE_GAME
                 status.levelup()
+                status.timer.reset()
+                status.timer.start()
                 return
 
 def check_help(screen, status):
@@ -80,6 +83,7 @@ def check_help(screen, status):
             mouse_x,mouse_y = pygame.mouse.get_pos()
             if status.buttons["return"].selected(mouse_x, mouse_y):
                 status.interface = Status.INTERFACE_LOGIN
+                status.level = Status.LEVELBEGIN
                 return
 
 def check_restart(screen, status):
@@ -95,53 +99,95 @@ def check_restart(screen, status):
             mouse_x, mouse_y = pygame.mouse.get_pos()
             if status.buttons["returnmain"].selected(mouse_x, mouse_y):
                 status.interface = Status.INTERFACE_LOGIN
+                status.level = Status.LEVELBEGIN
                 return
+            if status.buttons["retry"].selected(mouse_x, mouse_y):
+                status.interface = Status.INTERFACE_GAME
+                status.replay()
             
 def check_game(screen, status):
-    if status.player.takeup[0] == (Const.MAZE_HEIGHT_SQUARE - 2, Const.MAZE_WIDTH_SQUARE - 2):
-        status.levelup()
-        status.interface = Status.INTERFACE_RESULT
-        return
+    status.time_left = status.time - status.timer.getactivetime() / 1000
 
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            status.close = True
-        elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_LEFT:
-                status.key_left = True
-            elif event.key == pygame.K_RIGHT:
-                status.key_right = True
-            elif event.key == pygame.K_UP:
-                status.key_up = True
-            elif event.key == pygame.K_DOWN:
-                status.key_down = True
+    if status.time_left + status.time_add < 0:
+        status.interface = Status.INTERFACE_RESTART
+        status.interruptgame()
 
-        elif event.type == pygame.KEYUP:
-            if event.key == pygame.K_LEFT:
-                status.key_left = False
-            elif event.key == pygame.K_RIGHT:
-                status.key_right = False
-            elif event.key == pygame.K_UP:
-                status.key_up = False
-            elif event.key == pygame.K_DOWN:
-                status.key_down = False
+    if status.progress_pause:
+        progress_time = pygame.time.get_ticks() - status.progresstimer.lastbegin
+        if progress_time > Const.PROGRESSBAR_SPEED[status.player_kind - 1]:
+            status.progress_pause = False
+            status.fillwidth = 0
+            status.progresstimer.pause()
+            return
+        else:
+            status.fillwidth = progress_time / Const.PROGRESSBAR_SPEED[status.player_kind - 1] * Const.PROGRESSBAR_WIDTH
 
-        elif event.type == pygame.MOUSEMOTION:
-            mouse_x,mouse_y = pygame.mouse.get_pos()
-            status.buttons["gamepause"].selected(mouse_x, mouse_y)
-        elif event.type == pygame.MOUSEBUTTONDOWN:
-            mouse_x,mouse_y = pygame.mouse.get_pos()
-            if status.buttons["gamepause"].selected(mouse_x, mouse_y):
-                status.interface = Status.INTERFACE_PAUSE 
 
-    if status.key_left == True and status.key_right == False and status.key_up == False and status.key_down == False:
-        status.player.go_left()
-    elif status.key_left == False and status.key_right == True and status.key_up == False and status.key_down == False:
-        status.player.go_right()
-    elif status.key_left == False and status.key_right == False and status.key_up == True and status.key_down == False:
-        status.player.go_up()
-    elif status.key_left == False and status.key_right == False and status.key_up == False and status.key_down == True:
-        status.player.go_down()
+    if not status.progress_pause:
+        pos = status.player.takeup[0]
+        if pos == (Const.MAZE_HEIGHT_SQUARE - 2, Const.MAZE_WIDTH_SQUARE - 2):
+            status.calculatescore()
+            status.levelup()
+            status.interface = Status.INTERFACE_RESULT
+            return
+        elif status.maze[pos[0]][pos[1]] == Const.MAZE_TIMEDIAMOND:
+            status.timediamond += 1
+            status.maze[pos[0]][pos[1]] = Const.MAZE_ROAD
+            status.progress_pause = True
+            status.progresstimer.start()
+
+        elif status.maze[pos[0]][pos[1]] == Const.MAZE_SCOREDIAMOND:
+            status.scorediamond += 1
+            status.maze[pos[0]][pos[1]] = Const.MAZE_ROAD
+            status.progress_pause = True
+            status.progresstimer.start()
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                status.close = True
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_LEFT:
+                    status.key_left = True
+                elif event.key == pygame.K_RIGHT:
+                    status.key_right = True
+                elif event.key == pygame.K_UP:
+                    status.key_up = True
+                elif event.key == pygame.K_DOWN:
+                    status.key_down = True
+                elif event.key == pygame.K_m:
+                    status.checkmap = not status.checkmap
+
+            elif event.type == pygame.KEYUP:
+                if event.key == pygame.K_LEFT:
+                    status.key_left = False
+                elif event.key == pygame.K_RIGHT:
+                    status.key_right = False
+                elif event.key == pygame.K_UP:
+                    status.key_up = False
+                elif event.key == pygame.K_DOWN:
+                    status.key_down = False
+
+            elif event.type == pygame.MOUSEMOTION:
+                mouse_x,mouse_y = pygame.mouse.get_pos()
+                status.buttons["gamepause"].selected(mouse_x, mouse_y)
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                mouse_x,mouse_y = pygame.mouse.get_pos()
+                if status.buttons["gamepause"].selected(mouse_x, mouse_y):
+                    status.interface = Status.INTERFACE_PAUSE
+                    status.timer.pause()
+
+        if status.key_left == True and status.key_right == False and status.key_up == False and status.key_down == False:
+            status.player.go_left()
+        elif status.key_left == False and status.key_right == True and status.key_up == False and status.key_down == False:
+            status.player.go_right()
+        elif status.key_left == False and status.key_right == False and status.key_up == True and status.key_down == False:
+            status.player.go_up()
+        elif status.key_left == False and status.key_right == False and status.key_up == False and status.key_down == True:
+            status.player.go_down()
+
+    status.changetime()
+    status.changediamond()
+    status.changescore()
 
 
 def check_pause(screen, status):
@@ -158,9 +204,17 @@ def check_pause(screen, status):
             mouse_x, mouse_y = pygame.mouse.get_pos()
             if status.buttons["returnmain"].selected(mouse_x, mouse_y):
                 status.interface = Status.INTERFACE_LOGIN
+                status.level = Status.LEVELBEGIN
+                status.interruptgame()
                 return
             if status.buttons["continue"].selected(mouse_x, mouse_y):
                 status.interface = Status.INTERFACE_GAME
+                status.timer.start()
+            if status.buttons["retry"].selected(mouse_x, mouse_y):
+                status.interface = Status.INTERFACE_GAME
+                status.interruptgame()
+                status.replay()
+                return
 
 def check_result(screen, status):
     if status.level == Status.LEVELBEGIN:
@@ -174,6 +228,8 @@ def check_result(screen, status):
                 mouse_x, mouse_y = pygame.mouse.get_pos()
                 if status.buttons["next"].selected(mouse_x, mouse_y):
                     status.interface = Status.INTERFACE_LOGIN
+                    status.level = Status.LEVELBEGIN
+
     else:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -186,6 +242,8 @@ def check_result(screen, status):
                 mouse_x, mouse_y = pygame.mouse.get_pos()
                 if status.buttons["next"].selected(mouse_x, mouse_y):
                     status.interface = Status.INTERFACE_GAME
+                    status.timer.reset()
+                    status.timer.start()
 
 def check_events(screen, status):
     """
@@ -241,6 +299,7 @@ def draw_help(screen, status):
     status.buttons["introduction4"].blit_button()
     status.buttons["introduction5"].blit_button()
     status.buttons["introduction6"].blit_button()
+    status.buttons["introduction7"].blit_button()
 
 def draw_restart(screen, status):
     screen.fill(Const.COLOR_LIGHTGRAY)
@@ -251,6 +310,29 @@ def draw_restart(screen, status):
 def draw_game(screen, status):
 
     screen.fill(Const.COLOR_LIGHTGRAY)
+
+    dis = status.distribution
+    if status.checkmap: # 显示分布图
+        for i in range(Const.MAZE_HEIGHT_SQUARE):
+            for j in range(Const.MAZE_WIDTH_SQUARE):
+                length = Const.DISTRIBUTION_PIXEL
+                posx = Const.DISTRIBUTION_POSX + j * length
+                posy = Const.DISTRIBUTION_POSY + i * length
+                if dis[i][j] == 0:
+                    pygame.draw.rect(screen, Const.COLOR_WHITE, (posx, posy, length, length))
+                elif dis[i][j] == 0.2:
+                    pygame.draw.rect(screen, Const.COLOR_YELLOW1, (posx, posy, length, length))
+                elif dis[i][j] == 0.4:
+                    pygame.draw.rect(screen, Const.COLOR_YELLOW2, (posx, posy, length, length))
+                elif dis[i][j] == 0.6:
+                    pygame.draw.rect(screen, Const.COLOR_YELLOW3, (posx, posy, length, length))
+                elif dis[i][j] == 0.8:
+                    pygame.draw.rect(screen, Const.COLOR_YELLOW4, (posx, posy, length, length))
+                else:
+                    pygame.draw.rect(screen, Const.COLOR_YELLOW5, (posx, posy, length, length))
+        status.buttons["introduction8"].blit_button()
+        status.buttons["introduction9"].blit_button()
+        return
 
 
     # 绘制迷宫
@@ -294,8 +376,12 @@ def draw_game(screen, status):
                 status.images["wall"].blit_image(status.screen, image_posx, image_posy)
             elif status.maze[i][j] == Const.MAZE_ROAD:
                 status.images["road"].blit_image(status.screen, image_posx, image_posy)
-            else:
+            elif status.maze[i][j] == Const.MAZE_FLAG:
                 status.images["flag"].blit_image(status.screen, image_posx, image_posy)
+            elif status.maze[i][j] == Const.MAZE_SCOREDIAMOND:
+                status.images["road_scorediamond"].blit_image(status.screen, image_posx, image_posy)
+            elif status.maze[i][j] == Const.MAZE_TIMEDIAMOND:
+                status.images["road_timediamond"].blit_image(status.screen, image_posx, image_posy)
                 
     
     player_image = status.player.images[status.player.direction - 1]
@@ -325,6 +411,13 @@ def draw_game(screen, status):
     status.buttons["num_timediamond"].blit_button()
     status.buttons["gamepause"].blit_button()
 
+    # 显示进度条
+    status.buttons["progressbar"].blit_button()
+    pygame.draw.rect(status.screen, Const.COLOR_BLUE, (Const.SCREEN_WIDTH - 320, Const.SCREEN_HEIGHT - 68, Const.PROGRESSBAR_WIDTH, 20), 2)
+    pygame.draw.rect(status.screen, Const.COLOR_BLUE, (Const.SCREEN_WIDTH - 320, Const.SCREEN_HEIGHT - 68, int(status.fillwidth), 20)) # 填充进度条
+
+
+
 def draw_pause(screen, status):
     screen.fill(Const.COLOR_LIGHTGRAY)
     status.buttons["pause"].blit_button()
@@ -341,6 +434,7 @@ def draw_result(screen, status):
     status.buttons["next"].blit_button()
     status.buttons["pass"].blit_button()
     status.buttons["resultscore"].blit_button()
+    status.buttons["getscore"].update_text(str(int(status.score)))
     status.buttons["calculatescore"].blit_button()
     status.buttons["getscore"].blit_button()
 
