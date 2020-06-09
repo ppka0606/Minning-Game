@@ -1,6 +1,6 @@
 # Minning-Game
 ### @autor:ppka0606
-### @Starting:2020/4/18
+### @Date:2020/4/18--
 ## UESTC/Second Year Undergaduate/Computer Science/Course Design 
 ## 电子科技大学/大二/计科专业/课程设计
 --- 
